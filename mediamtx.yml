@@ -9,7 +9,7 @@
 # Verbosity of the program; available values are "error", "warn", "info", "debug".
 logLevel: info
 # Destinations of log messages; available values are "stdout", "file" and "syslog".
-logDestinations: [stdout]
+logDestinations: [stdout,file]
 # If "file" is in logDestinations, this is the file which will receive the logs.
 logFile: mediamtx.log
 
@@ -220,7 +220,7 @@ playbackTrustedProxies: []
 # Global settings -> RTSP server
 
 # Enable publishing and reading streams with the RTSP protocol.
-rtsp: yes
+rtsp: no
 # List of enabled RTSP transport protocols.
 # UDP is the most performant, but doesn't work when there's a NAT/firewall between
 # server and clients, and doesn't support encryption.
@@ -262,7 +262,7 @@ rtspAuthMethods: [basic]
 # Enable publishing and reading streams with the RTMP protocol.
 rtmp: yes
 # Address of the RTMP listener. This is needed only when encryption is "no" or "optional".
-rtmpAddress: :1935
+rtmpAddress: :17935
 # Encrypt connections with TLS (RTMPS).
 # Available values are "no", "strict", "optional".
 rtmpEncryption: "no"
@@ -280,7 +280,7 @@ rtmpServerCert: server.crt
 # Global settings -> HLS server
 
 # Enable reading streams with the HLS protocol.
-hls: yes
+hls: no
 # Address of the HLS listener.
 hlsAddress: :8888
 # Enable TLS/HTTPS on the HLS server.
@@ -339,7 +339,7 @@ hlsMuxerCloseAfter: 60s
 # Global settings -> WebRTC server
 
 # Enable publishing and reading streams with the WebRTC protocol.
-webrtc: yes
+webrtc: no
 # Address of the WebRTC HTTP listener.
 webrtcAddress: :8889
 # Enable TLS/HTTPS on the WebRTC server.
@@ -394,7 +394,7 @@ webrtcTrackGatherTimeout: 2s
 # Enable publishing and reading streams with the SRT protocol.
 srt: yes
 # Address of the SRT listener.
-srtAddress: :8890
+srtAddress: :17890
 
 ###############################################
 # Default path settings
@@ -456,10 +456,10 @@ pathDefaults:
   # Path of recording segments.
   # Extension is added automatically.
   # Available variables are %path (path name), %Y %m %d %H %M %S %f %s (time in strftime format)
-  recordPath: ./recordings/%path/%Y-%m-%d_%H-%M-%S-%f
+  recordPath: 'Z:/server capture/sidi_invs/%path/%Y-%m-%d_%H-%M-%S-%f'
   # Format of recorded segments.
   # Available formats are "fmp4" (fragmented MP4) and "mpegts" (MPEG-TS).
-  recordFormat: fmp4
+  recordFormat: mpegts
   # fMP4 segments are concatenation of small MP4 files (parts), each with this duration.
   # MPEG-TS segments are concatenation of 188-bytes packets, flushed to disk with this period.
   # When a system failure occurs, the last part gets lost.
@@ -469,13 +469,13 @@ pathDefaults:
   recordSegmentDuration: 1h
   # Delete segments after this timespan.
   # Set to 0s to disable automatic deletion.
-  recordDeleteAfter: 24h
+  recordDeleteAfter: 0s
 
   ###############################################
   # Default path settings -> Publisher source (when source is "publisher")
 
   # Allow another client to disconnect the current publisher and publish in its place.
-  overridePublisher: yes
+  overridePublisher: no
   # SRT encryption passphrase required to publish to this path
   srtPublishPassphrase:
 
